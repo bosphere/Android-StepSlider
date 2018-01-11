@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="StepSlider">
-        <attr name="thumb_color" format="color|reference"/>
-        <attr name="thumb_bg_color" format="color|reference"/>
-        <attr name="track_color" format="color|reference"/>
-        <attr name="track_bg_color" format="color|reference"/>
-        <attr name="thumb_radius" format="dimension|reference"/>
-        <attr name="thumb_bg_radius" format="dimension|reference"/>
-        <attr name="track_height" format="dimension|reference"/>
-        <attr name="track_bg_height" format="dimension|reference"/>
-        <attr name="step" format="integer"/>
+        <attr name="ss_thumb_color" format="color|reference"/>
+        <attr name="ss_thumb_bg_color" format="color|reference"/>
+        <attr name="ss_track_color" format="color|reference"/>
+        <attr name="ss_track_bg_color" format="color|reference"/>
+        <attr name="ss_thumb_radius" format="dimension|reference"/>
+        <attr name="ss_thumb_bg_radius" format="dimension|reference"/>
+        <attr name="ss_track_height" format="dimension|reference"/>
+        <attr name="ss_track_bg_height" format="dimension|reference"/>
+        <attr name="ss_step" format="integer"/>
     </declare-styleable>
 </resources>

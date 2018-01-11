@@ -121,24 +121,24 @@ public class StepSlider extends View {
 
         if (attrs != null) {
             TypedArray arr = getContext().obtainStyledAttributes(attrs, R.styleable.StepSlider, defStyleAttr, 0);
-            int thumbColor = arr.getColor(R.styleable.StepSlider_thumb_color, mThumbFgPaint.getColor());
+            int thumbColor = arr.getColor(R.styleable.StepSlider_ss_thumb_color, mThumbFgPaint.getColor());
             mThumbFgPaint.setColor(thumbColor);
 
-            int thumbBgColor = arr.getColor(R.styleable.StepSlider_thumb_bg_color, mThumbBgPaint.getColor());
+            int thumbBgColor = arr.getColor(R.styleable.StepSlider_ss_thumb_bg_color, mThumbBgPaint.getColor());
             mThumbBgPaint.setColor(thumbBgColor);
 
-            int trackColor = arr.getColor(R.styleable.StepSlider_track_color, mTrackFgPaint.getColor());
+            int trackColor = arr.getColor(R.styleable.StepSlider_ss_track_color, mTrackFgPaint.getColor());
             mTrackFgPaint.setColor(trackColor);
 
-            int trackBgColor = arr.getColor(R.styleable.StepSlider_track_bg_color, mTrackBgPaint.getColor());
+            int trackBgColor = arr.getColor(R.styleable.StepSlider_ss_track_bg_color, mTrackBgPaint.getColor());
             mTrackBgPaint.setColor(trackBgColor);
 
-            mThumbFgRadius = arr.getDimensionPixelSize(R.styleable.StepSlider_thumb_radius, mThumbFgRadius);
-            mThumbBgRadius = arr.getDimensionPixelSize(R.styleable.StepSlider_thumb_bg_radius, mThumbBgRadius);
-            mTrackFgHeight = arr.getDimensionPixelSize(R.styleable.StepSlider_track_height, mTrackFgHeight);
-            mTrackBgHeight = arr.getDimensionPixelSize(R.styleable.StepSlider_track_bg_height, mTrackBgHeight);
+            mThumbFgRadius = arr.getDimensionPixelSize(R.styleable.StepSlider_ss_thumb_radius, mThumbFgRadius);
+            mThumbBgRadius = arr.getDimensionPixelSize(R.styleable.StepSlider_ss_thumb_bg_radius, mThumbBgRadius);
+            mTrackFgHeight = arr.getDimensionPixelSize(R.styleable.StepSlider_ss_track_height, mTrackFgHeight);
+            mTrackBgHeight = arr.getDimensionPixelSize(R.styleable.StepSlider_ss_track_bg_height, mTrackBgHeight);
 
-            mNumStep = arr.getInteger(R.styleable.StepSlider_step, mNumStep);
+            mNumStep = arr.getInteger(R.styleable.StepSlider_ss_step, mNumStep);
 
             arr.recycle();
         }
@@ -159,7 +159,7 @@ public class StepSlider extends View {
         int contentHeight = getPaddingTop() + Math.max(mThumbBgRadius, mThumbFgRadius) * 2 + getPaddingBottom();
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
         int height = MeasureSpec.getSize(heightMeasureSpec);
-        if (heightMode == MeasureSpec.UNSPECIFIED) {
+        if (heightMode != MeasureSpec.EXACTLY) {
             height = Math.max(contentHeight, getSuggestedMinimumHeight());
         }
         setMeasuredDimension(width, height);
@@ -181,22 +181,24 @@ public class StepSlider extends View {
                 int left = 0, right;
                 for (int i = 0; i < mNumStep; i++) {
                     right = getPaddingLeft() + maxRadius + stepSize * i;
-                    if (i == 0) {
-                        if (x < right) {
-                            onPositionChanged(0, true);
-                            break;
-                        }
-                    } else {
-                        if (x < right) {
-                            if (x - left > right - x) {
-                                onPositionChanged(i, true);
-                            } else {
-                                onPositionChanged(i - 1, true);
-                            }
-                            break;
-                        }
+                    if (left == 0) {
+                        left = right;
                     }
 
+                    if (x <= left) {
+                        onPositionChanged(i, true);
+                        break;
+                    } else if (x <= right) {
+                        if (x - left > right - x) {
+                            onPositionChanged(i, true);
+                        } else {
+                            onPositionChanged(i - 1, true);
+                        }
+                        break;
+                    } else if (i == mNumStep - 1) {
+                        onPositionChanged(i, true);
+                        break;
+                    }
                     left = right;
                 }
                 break;

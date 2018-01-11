@@ -9,15 +9,19 @@
 
     <com.bosphere.stepslider.StepSlider
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        app:thumb_radius="10dp"
-        app:thumb_bg_radius="16dp"
-        app:track_height="4dp"
-        app:track_bg_height="6dp"
-        app:track_color="@color/colorAccent"
-        app:thumb_color="@color/colorPrimary"
-        app:step="5"/>
+        android:layout_height="match_parent"
+        android:paddingLeft="48dp"
+        android:paddingRight="48dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:ss_step="5"
+        app:ss_thumb_bg_radius="12dp"
+        app:ss_thumb_color="@color/colorPrimary"
+        app:ss_thumb_radius="10dp"
+        app:ss_track_bg_height="6dp"
+        app:ss_track_color="@color/colorPrimaryDark"
+        app:ss_track_height="3dp"/>
 
 </android.support.constraint.ConstraintLayout>
