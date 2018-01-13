@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
-import android.support.annotation.AttrRes;
 import android.support.annotation.ColorInt;
 import android.support.annotation.Nullable;
 import android.util.AttributeSet;
@@ -26,6 +26,9 @@ public class StepSlider extends View {
 
     private static final int TRACK_HEIGHT_BG = 4;
     private static final int TRACK_HEIGHT_FG = 2;
+
+    private final int COLOR_BG = Color.parseColor("#dddfeb");
+    private final int COLOR_FG = Color.parseColor("#7da1ae");
 
     private int mThumbBgRadius, mThumbFgRadius;
     private int mTrackBgHeight, mTrackFgHeight;
@@ -76,6 +79,16 @@ public class StepSlider extends View {
         invalidate();
     }
 
+    public void setThumbRadiusPx(int radiusPx) {
+        mThumbFgRadius = radiusPx;
+        invalidate();
+    }
+
+    public void setThumbBgRadiusPx(int radiusPx) {
+        mThumbBgRadius = radiusPx;
+        invalidate();
+    }
+
     public void setTrackHeightPx(int heightPx) {
         mTrackFgHeight = heightPx;
         invalidate();
@@ -95,21 +108,24 @@ public class StepSlider extends View {
     }
 
     private void init(AttributeSet attrs, int defStyleAttr) {
+        int colorDefaultBg = resolveAttrColor("colorControlNormal", COLOR_BG);
+        int colorDefaultFg = resolveAttrColor("colorControlActivated", COLOR_FG);
+
         mThumbBgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mThumbBgPaint.setStyle(Paint.Style.FILL);
-        mThumbBgPaint.setColor(resolveAttrColor(R.attr.colorControlNormal));
+        mThumbBgPaint.setColor(colorDefaultBg);
 
         mThumbFgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mThumbFgPaint.setStyle(Paint.Style.FILL);
-        mThumbFgPaint.setColor(resolveAttrColor(R.attr.colorControlActivated));
+        mThumbFgPaint.setColor(colorDefaultFg);
 
         mTrackBgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTrackBgPaint.setStyle(Paint.Style.FILL);
-        mTrackBgPaint.setColor(resolveAttrColor(R.attr.colorControlNormal));
+        mTrackBgPaint.setColor(colorDefaultBg);
 
         mTrackFgPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mTrackFgPaint.setStyle(Paint.Style.FILL);
-        mTrackFgPaint.setColor(resolveAttrColor(R.attr.colorControlActivated));
+        mTrackFgPaint.setColor(colorDefaultFg);
 
         mTrackRect = new RectF();
 
@@ -145,10 +161,15 @@ public class StepSlider extends View {
     }
 
     @ColorInt
-    private int resolveAttrColor(@AttrRes int attr) {
+    private int resolveAttrColor(String attrName, @ColorInt int defaultColor) {
+        String packageName = getContext().getPackageName();
+        int attrRes = getResources().getIdentifier(attrName, "attr", packageName);
+        if (attrRes <= 0) {
+            return defaultColor;
+        }
         TypedValue value = new TypedValue();
         Resources.Theme theme = getContext().getTheme();
-        theme.resolveAttribute(attr, value, true);
+        theme.resolveAttribute(attrRes, value, true);
         return getResources().getColor(value.resourceId);
     }
 

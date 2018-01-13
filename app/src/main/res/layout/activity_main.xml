@@ -8,6 +8,7 @@
     tools:context="com.bosphere.stepsliderdemo.MainActivity">
 
     <com.bosphere.stepslider.StepSlider
+        android:id="@+id/slider"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="48dp"
@@ -17,11 +18,13 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:ss_step="5"
+        app:ss_thumb_radius="10dp"
         app:ss_thumb_bg_radius="12dp"
         app:ss_thumb_color="@color/colorPrimary"
-        app:ss_thumb_radius="10dp"
+        app:ss_thumb_bg_color="@color/colorControlNormal"
+        app:ss_track_height="3dp"
         app:ss_track_bg_height="6dp"
-        app:ss_track_color="@color/colorPrimaryDark"
-        app:ss_track_height="3dp"/>
+        app:ss_track_color="@color/colorPrimary"
+        app:ss_track_bg_color="@color/colorControlNormal"/>
 
 </android.support.constraint.ConstraintLayout>
