@@ -12,6 +12,7 @@ import android.support.annotation.Nullable;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -108,6 +109,9 @@ public class StepSlider extends View {
     }
 
     private void init(AttributeSet attrs, int defStyleAttr) {
+        // to support non-touchable environment
+        setFocusable(true);
+
         int colorDefaultBg = resolveAttrColor("colorControlNormal", COLOR_BG);
         int colorDefaultFg = resolveAttrColor("colorControlActivated", COLOR_FG);
 
@@ -225,6 +229,22 @@ public class StepSlider extends View {
                 break;
         }
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_DPAD_LEFT) {
+            if (mPosition > 0) {
+                onPositionChanged(mPosition - 1, true);
+            }
+            return true;
+        } else if (keyCode == KeyEvent.KEYCODE_DPAD_RIGHT) {
+            if (mPosition < mNumStep - 1) {
+                onPositionChanged(mPosition + 1, true);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void onPositionChanged(int pos, boolean notifyChange) {
