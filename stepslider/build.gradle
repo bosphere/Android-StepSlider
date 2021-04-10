@@ -1,26 +1,17 @@
-buildscript {
-    repositories {
-        jcenter()
-    }
-    dependencies {
-        classpath 'com.novoda:bintray-release:0.8.0'
-    }
-}
-
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: 'maven-publish'
+apply plugin: 'signing'
 
 android {
-    compileSdkVersion 27
+    compileSdkVersion 30
 
     defaultConfig {
         minSdkVersion 9
-        targetSdkVersion 27
+        targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
+        testInstrumentationRunner 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     buildTypes {
@@ -29,29 +20,20 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
-
 }
 
 dependencies {
-    implementation 'com.android.support:support-annotations:27.1.0'
+    implementation 'androidx.annotation:annotation:1.2.0'
 }
 
-// to release, update publishVersion and run the following:
-// ./gradlew :stepslider:clean :stepslider:build :stepslide:bintrayUpload
-
-publish {
-    userOrg = 'bosphere'
-    groupId = 'com.github.bosphere'
-    artifactId = 'android-stepslider'
-    uploadName = 'android-step-slider'
-    publishVersion = '1.0.2'
-    desc = 'A simple slider that is discrete with intermediate steps'
-    website = 'https://github.com/bosphere/Android-StepSlider'
-
-    Properties properties = new Properties()
-    properties.load(project.rootProject.file('local.properties').newDataInputStream())
-    bintrayUser = properties.getProperty("bintray.user")
-    bintrayKey = properties.getProperty("bintray.apikey")
-
-    dryRun = false
+ext {
+    PUBLISH_GROUP_ID = 'com.github.bosphere'
+    PUBLISH_VERSION = '1.0.3'
+    PUBLISH_ARTIFACT_ID = 'android-stepslider'
+    PUBLISH_DESCRIPTION = 'A simple slider that is discrete with intermediate steps'
+    PUBLISH_URL = 'https://github.com/bosphere/Android-StepSlider'
+    PUBLISH_SCM_CONNECTION = 'scm:git:github.com/bosphere/Android-StepSlider.git'
+    PUBLISH_SCM_DEVELOPER_CONNECTION = 'scm:git:ssh://github.com/bosphere/Android-StepSlider.git'
+    PUBLISH_SCM_URL = 'https://github.com/bosphere/Android-StepSlider/tree/master'
 }
+apply from: "${rootProject.projectDir}/publish-mavencentral.gradle"
